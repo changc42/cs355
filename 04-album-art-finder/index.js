@@ -2,12 +2,13 @@
 =-=-=-=-=-=-=-=-=-=-=-=-
 Album Art Search
 =-=-=-=-=-=-=-=-=-=-=-=-
-Student ID:
+Student ID:23524938
 Comment (Required):
 
 =-=-=-=-=-=-=-=-=-=-=-=-
 */
 
+const url = require("url");
 const http = require("http");
 const fs = require("fs");
 const port = 3000;
@@ -39,7 +40,15 @@ function connection_handler(req, res) {
       res.writeHead(200, { "Content-Type": "image/jpeg" });
       image_stream.pipe(res);
     });
-  } else res.write("replace with catch all");
+  } else if (req.url.startsWith("/search")) {
+    let urlObj = url.parse(req.url, true);
+    res.write(urlObj.query.artist);
+    res.end();
+  } else {
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.write("404 Not found");
+    res.end();
+  }
 }
 
 server.on("listening", listening_handler);
