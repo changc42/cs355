@@ -1,3 +1,13 @@
+/*
+this function takes in zero or one parameters.
+
+In both cases, this function sends a request containg client credentials to the spotify API and 
+receives an authorization token. this token is then cached in './auth/authentication-res.json'
+
+if a parameter is given, a search will be made using the param and the search function
+if no parameter is given, nothing else is done
+*/
+
 const url = require("url");
 const https = require("https");
 const http = require("http");
@@ -5,9 +15,10 @@ const querystring = require("querystring");
 const fs = require("fs");
 const credentials = require("./auth/credentials.json");
 let toBase64 = require("./base64");
-const requestAlbum = require("./requestAlbum");
+const create_search_req = require("./create_search_req");
+const test = require("./test");
 
-function requestToken(query) {
+function requestToken(query, origRes) {
   let post_data_obj = {
     grant_type: "client_credentials",
   };
@@ -30,7 +41,7 @@ function requestToken(query) {
   let authentication_req = https.request(token_endpoint, options, function (
     authentication_res
   ) {
-    received_authentication(authentication_res, auth_sent_time);
+    received_authentication(authentication_res, auth_sent_time, query, origRes);
   });
 
   authentication_req.on("error", function (e) {
@@ -41,9 +52,9 @@ function requestToken(query) {
 
   const received_authentication = function (
     authentication_res,
-    // user_input,
-    auth_sent_time
-    // res
+    auth_sent_time,
+    query,
+    origRes
   ) {
     authentication_res.setEncoding("utf8");
     let body = "";
@@ -54,7 +65,8 @@ function requestToken(query) {
       let spotify_auth = JSON.parse(body);
       spotify_auth.expiration = auth_sent_time.getTime() + 3600000;
       create_access_token_cache(spotify_auth);
-      // create_search_req(spotify_auth, user_input, res);
+      const create_search_req = require("./create_search_req");
+      create_search_req(query, origRes, spotify_auth);
     });
   };
 
@@ -63,14 +75,10 @@ function requestToken(query) {
       "./auth/authentication-res.json",
       JSON.stringify(spotify_auth),
       () => {
-        if (query) {
-          requestAlbum(query);
-        }
+        console.log("auth cached");
       }
     );
   }
-
-  // function create_search_req(spotify_auth, user_input, res) {}
 }
 
 module.exports = requestToken;
