@@ -10,6 +10,8 @@ Comment (Required):
 
 const Jimp = require("jimp");
 const http = require("http");
+const fs = require("fs");
+const url = require("url");
 
 let can = {
   lid: { path: "assets/can/can-lid.png" },
@@ -40,10 +42,7 @@ function loadCanImages(canCounter) {
         canCounter++;
         loadCanImages(canCounter);
       } else {
-        // console.log("finished loading can assets");
-        for (prop in can) {
-          can[prop].resource.write(`${prop}.png`);
-        }
+        console.log("finished loading can assets");
       }
     }
   });
@@ -65,11 +64,6 @@ function loadFlavorImages(flavorCounter) {
   });
 }
 
-function checkResource() {
-  flavors.forEach((obj, i) => {
-    obj.resource.write(`${i}.png`);
-  });
-}
 function openAssets() {
   loadCanImages(0);
   loadFlavorImages(0);
@@ -77,7 +71,75 @@ function openAssets() {
 
 openAssets();
 
+const hexToRgb = function hexToRgb(hex) {
+  let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : { r: 255, g: 255, b: 255 };
+};
+
+function create_can(can, color, flavorObj, filename, res) {
+  console.log(`creating ${filename}`);
+  let new_can = can.body.resource.clone();
+  let colored_can = new_can.color([
+    { apply: "red", params: [color.r] },
+    { apply: "green", params: [color.g] },
+    { apply: "blue", params: [color.b] },
+  ]);
+  can.lid.resource
+    .blit(colored_can, 0, 0)
+    .blit(can.label.resource, 40, 210)
+    .blit(flavorObj.resource, flavorObj.x, flavorObj.y)
+    .write(filename, () => {
+      deliver_can(filename, res);
+    });
+}
+
+function deliver_can(filename, res) {
+  let customCan = fs.createReadStream(filename);
+  res.writeHead(200, { "Content-Type": "image/png" });
+  customCan.pipe(res);
+}
+
 let server = http.createServer();
+server.on("request", (req, res) => {
+  if (req.url === "/") {
+    let file = fs.createReadStream("./html/form.html");
+    res.writeHead(200, { "Content-Type": "text/html" });
+    file.pipe(res);
+  } else if (req.url === "/image-credits.txt") {
+    let file = fs.createReadStream("./assets/image-credits.txt");
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    file.pipe(res);
+  } else if (req.url.startsWith("/design")) {
+    let user_input = url.parse(req.url, true).query;
+    let color = hexToRgb(user_input.color);
+    let i = flavors.findIndex((flavor) => flavor.id === user_input.flavor);
+    if (i === -1) {
+      res.writeHead(404, { "Content-Type": "text/plain" });
+      res.write(`${user_input.flavor} not valid`);
+      console.log(user_input);
+      res.end();
+    } else {
+      let filename = `${flavors[i].id}_${user_input.color}.png`;
+      if (fs.existsSync(filename)) {
+        let customCan = fs.createReadStream(filename);
+        res.writeHead(200, { "Content-Type": "image/png" });
+        customCan.pipe(res);
+      } else {
+        create_can(can, color, flavors[i], filename, res);
+      }
+    }
+  } else {
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.write("404 Not found at all");
+    res.end();
+  }
+});
 
 server.listen(3000, () => {
   console.log("listening on port 3000");
