@@ -2,9 +2,14 @@
 =-=-=-=-=-=-=-=-=-=-=-=-
 Soda Designer
 =-=-=-=-=-=-=-=-=-=-=-=-
-Student ID:
+Student ID:23524938
 Comment (Required):
+the (for ... in) loops was giving me some problems so I used Object.keys() method instead. The loadCanImages
+and loadFlavorImages load the images synchronouosly. I am not sure how to do ansynchronously. I tried async using a for loop, but the iterator would synchronously call all the async Jimp.read() calls, and the iterator would be at the end, so the iterator can not be used to tell jimp Jimp where to store the images. By loading the images synchronously, the iterator corresponds to the currenttly loading image.
 
+Whenever a user sends a request to /design, the flavor and color from the query is converted into the string: `./tmp/${flavors[i].id}-${color.r}-${color.g}-${color.b}.png`, and check if this file exists. If this file exists, send back the image, else, create the new image.
+
+Not sure what the tmp folder for. It's probably used to store the created images
 =-=-=-=-=-=-=-=-=-=-=-=-
 */
 
@@ -125,7 +130,7 @@ server.on("request", (req, res) => {
       console.log(user_input);
       res.end();
     } else {
-      let filename = `${flavors[i].id}_${user_input.color}.png`;
+      let filename = `./tmp/${flavors[i].id}-${color.r}-${color.g}-${color.b}.png`;
       if (fs.existsSync(filename)) {
         let customCan = fs.createReadStream(filename);
         res.writeHead(200, { "Content-Type": "image/png" });
