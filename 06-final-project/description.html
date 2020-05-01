@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<!-- saved from url=(0087)https://venus.cs.qc.cuny.edu/~rlaw/cs355/assignment/06-final-project/final-project.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width initial-scale=1">
+<title>final-project</title><link href="./description_files/css" rel="stylesheet" type="text/css"><style type="text/css">html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none 0s ease 0s; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+svg[id^="mermaidChart"] { line-height: 1em; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    padding-bottom: .3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+   padding-bottom: .3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+
+</style>
+</head>
+<body class="typora-export os-windows">
+<div id="write" class="is-node"><h1><a name="cs355-final-project-sp2020" class="md-header-anchor"></a><span>CS355 Final Project (SP2020)</span></h1><p><span>In this project you will choose two API's and create a mashup that uses these API's in a synchronous manner.  </span></p><p><span>Some notable examples from previous semesters includes:</span></p><ul><li><span>Nasa API + Google Drive.  Connect to a users Google drive and uploads a new photo from Space daily.</span></li><li><span>OpenDota API + Wunderlist: Create Calendar events for all league matches.</span></li><li><span>OpenWeatherMap + OpenBreweryDB: Let the user search for brewery's by zip code and display weather information for the surrounding area.</span></li></ul><p>&nbsp;</p><p>&nbsp;</p><h2><a name="requirements" class="md-header-anchor"></a><span>Requirements</span></h2><p><span>A successful project will have at minimum four phases in code execution:</span></p><ol start=""><li><span>When a end user visits the home page, send them a form to fill out.</span></li><li><span>When a end user submits the form, use the captured data to send the first API request.</span></li><li><span>Upon receiving the response from the first API request, your server will  parse the response and generate a request to the second API.</span></li><li><span>Upon receiving the response from the second API request, your server will  parse the response and finally send results back to the end user.</span></li></ol><p>&nbsp;</p><p><span>The project requires two API's to be chosen, one of which </span><strong><span>MUST</span></strong><span> have some form of authentication.  The authentication model chosen will determine the maximum score that can be earned.  The other chosen API does not need authentication.</span></p><p>&nbsp;</p><h2><a name="score-ceilings-and-authentication-model" class="md-header-anchor"></a><span>Score Ceilings and Authentication Model</span></h2><p><span>There will be score ceilings dependent on the authentication model chosen.  </span></p><ul><li><span>API Keys are typically the easiest as you get them when registering your application.  </span></li><li><span>OAuth 2.0 Client Credential requires your application to trade Client ID and Client secret for an access token, before being able to interact with the API.  </span></li><li><span>A three-legged OAuth request is the most complex as it involves explicitly getting permissions from a third entity, the end user.</span></li></ul><p><span>Each step increases project complexity, but there is a larger reward for those willing to take a risk with a more difficult work flow.  (To gauge the difficulty the Spotify API used Client Credential authorization workflow)</span></p><p>&nbsp;</p><figure><table><thead><tr><th><span>Authentication</span></th><th><span>Maximum Score</span></th></tr></thead><tbody><tr><td><span>API Key</span></td><td><span>80%</span></td></tr><tr><td><a href="https://github.com/Kong/mashape-oauth/blob/master/FLOWS.md#oauth-2-two-legged"><span>OAuth 2.0 Client Credential</span></a></td><td><span>100%</span></td></tr><tr><td><a href="https://github.com/Kong/mashape-oauth/blob/master/FLOWS.md#oauth-2-three-legged"><span>OAuth 2.0 Three Legged</span></a></td><td><span>115%</span></td></tr></tbody></table></figure><p>&nbsp;</p><h2><a name="list-of-apis" class="md-header-anchor"></a><span>List of API's</span></h2><p><a href="https://github.com/public-apis/public-apis" target="_blank" class="url">https://github.com/public-apis/public-apis</a></p><p><span>You should avoid OAuth 1.0 API's as we did not cover certificate signing this semester.</span></p><p><span>You are not restricted to just API's on this list.</span></p><p>&nbsp;</p><h2><a name="restrictions" class="md-header-anchor"></a><span>Restrictions</span></h2><p><span>Like previous assignments NPM modules are banned.</span></p><p><span>This project tasks you with writing an HTTP server to communicate with various API's.  Some API's offer helper libraries to automate the authentication process.  You cannot use these libraries.  (You can still use those API's, but you must do so using only HTTP / HTTPS Node.js modules)</span></p><p>&nbsp;</p><p><span>As this is meant to be an independent research project, API's used in current and future lecture videos and in previous assignments are not allowed.  This list includes four API's:</span></p><ul><li><p><a href="https://jobs.github.com/api" target="_blank" class="url">https://jobs.github.com/api</a><span> </span></p></li><li><p><a href="https://developer.usajobs.gov/" target="_blank" class="url">https://developer.usajobs.gov/</a><span> </span></p></li><li><p><a href="https://developer.todoist.com/" target="_blank" class="url">https://developer.todoist.com/</a></p></li><li><p><a href="https://developer.spotify.com/" target="_blank" class="url">https://developer.spotify.com/</a><span> </span></p><ul><li><p><span>Exception: Three legged OAuth endpoints are allowed for Spotify API.</span></p><p>&nbsp;</p></li></ul></li></ul><h2><a name="unrelated-apis-are-okay" class="md-header-anchor"></a><span>Unrelated API's are okay</span></h2><p><span>If you are  having difficulty finding two related API's, it is acceptable to use two unrelated API's.  In this scenario, students are </span><em><span>still</span></em><span> required to write their code in a synchronous fashion, and will instead </span><em><span>pretend</span></em><span> the first API request needs to be responded to, before the second can be sent.  (Eg. I need to get the restaurant information, before I can request the weather data)</span></p><p>&nbsp;</p><h2><a name="phase-1-choosing-a-pair-of-apis" class="md-header-anchor"></a><span>Phase 1: Choosing a pair of APIs</span></h2><p><span>During this phase you should be looking through and setting up accounts with various API's to find a pair that you want to create your project with.  Make sure to try using each API before making deciding on your API, as some API's are much harder to use than others.  </span></p><p><span>I would recommend first looking into API's that interest you, having contextual knowledge about a particular hobby can make working with the API much easier.  (E.g. A Hearthstone player would understand the intricate details of the Hearthstone API better than non-players)</span></p><p>&nbsp;</p><p><span>During this phase you should:</span></p><ul><li><span>Get the required API keys or Client ID / Client Secret pairs.</span></li><li><span>Draw a draft of a sequence diagram that follows how a typical user would use your server and how your server interacts with 3rd party APIs. </span><em><span>(Not submitted yet)</span></em></li><li><span>For each network request to a third party (outbound arrow) in the sequence diagram, try to replicate them with Insomnia.  </span></li><li><span>Ensure that you can correctly authenticate and access all endpoints.</span></li></ul><p>&nbsp;</p><p><span>My assistance will be limited for this project, in contrast to the Spotify API, I do not have intimate knowledge of your chosen APIs, if you find that you are having trouble using the API, don't choose it!</span></p><p><span>Once testing is completed you will submit your API choice here:</span></p><p>&nbsp;</p><p><span>Within 24 hours of submitting the form (likely much sooner) , you will receive an email notifying you of your choices either be approved or rejected.  API pair choice is assigned on a first come first serve.</span></p><p><span>In the case where someone submits the exact same pair of APIs as you, you will need to change one or more of the API's and resubmit.  </span></p><p><span>Although this restriction does disallows two students from choosing the same API pair, in practice I have yet to encounter a case where two students choose the EXACT same pairs of API's randomly.</span></p><p><span>The public API list currently has 683 different API's or C</span><sub><span>2</span></sub><span>(683) = 232903 possible pairings.</span></p><p><span>There's little need to rush this process and it can be harmful if you lock yourself into an API that you later find incredibly difficult to use.</span></p><p>&nbsp;</p><h3><a name="submit-api-choices" class="md-header-anchor"></a><span>Submit API Choices</span></h3><p><a href="https://docs.google.com/forms/d/e/1FAIpQLScmHUEnquraM9zX2oKiQNHDRlqjDoPu1GCAKPJtSpTP4SXHxQ/viewform?usp=sf_link" target="_blank" class="url">https://docs.google.com/forms/d/e/1FAIpQLScmHUEnquraM9zX2oKiQNHDRlqjDoPu1GCAKPJtSpTP4SXHxQ/viewform?usp=sf_link</a></p><p>&nbsp;</p><h2><a name="phase-2-creating-the-project" class="md-header-anchor"></a><span>Phase 2: Creating the Project</span></h2><p><span>Within 24 hours you should get notification, and if approved you may move to the next phase.</span></p><p><span>The deliverables you will be required to submit:</span></p><ol start=""><li><p><span>Code and any assets needed to run the project.  If there are any additional setup requirements please include that information in a file </span><code>readme.txt</code></p></li><li><p><span>A formalized Sequence Diagram describing a (non-cached) use of your application including all calls to each API</span></p><ul><li><a href="https://sequencediagram.org/" target="_blank" class="url">https://sequencediagram.org/</a></li><li><span>There should be 4 entities in your diagram: the user, your server, and the two APIs.</span></li></ul></li></ol><p>&nbsp;</p><p><span>Additional Factors that will effect your grade:</span></p><ul><li><p><span>Is your application resilient to unexpected input?  (It should deliver 404 in most of these cases)</span></p></li><li><p><span>Do you utilize caching?</span></p></li><li><p><span>Sequence Diagram</span></p><ul><li><span>Are all Requests included (No missing arrows on diagram)</span></li><li><span>Headers / Query / Post Data included where required?</span></li></ul></li></ul><p><span>If you have multiple similar requests, like downloading several images, a remarking is sufficient</span></p><p>&nbsp;</p><h3><a name="submit-project" class="md-header-anchor"></a><span>Submit Project</span></h3><p><span>Save all files and sequence diagram into a directory </span><code>A06-########</code><span> replacing </span><code>#</code><span> with your Student ID</span></p><p><a href="https://docs.google.com/forms/d/e/1FAIpQLScebSyGTjdcNoshyrGaGKbggBVkiit4I1YaX6LWfxBlTsKD9g/viewform?usp=sf_link" target="_blank" class="url">https://docs.google.com/forms/d/e/1FAIpQLScebSyGTjdcNoshyrGaGKbggBVkiit4I1YaX6LWfxBlTsKD9g/viewform?usp=sf_link</a></p><p>&nbsp;</p><h2><a name="phase-3-presenting-your-results" class="md-header-anchor"></a><span>Phase 3: Presenting your results</span></h2><p><span>Once finished with the coding portion is submitted, students will schedule a time slot to present their results to me.  Each presentation is expected to be 10 to 15 minutes, consisting of a demo, code review, and Q&amp;A.</span></p><p><span>I know some students may be apprehensive of the presentation portion, but this is required so I don't have go about registering hundreds of API keys for various applications, and gives a chance for students to show me their project on their terms, instead of having me trying to get the project working on my machine, which can be a massive time hog.</span></p><p><span>During this presentation I will ask you to step through the code explaining it, and have you demo the completed project.</span></p><p><span>We will use </span><a href="https://www.webex.com/"><span>Cisco Webex</span></a><span> for web conferencing and Google Calendar for Scheduling, you can register any available Office Hour slot if you are presenting early, and towards the end of the semester I will add dedicated slots for presentations.</span></p><p><span>During the meeting students will share their screen where we will step through your code and the resulting output.</span></p><p><span>You should be prepared to answer the following questions:</span></p><ul><li><span>What steps are required to get the data needed to facilitate a request?</span></li><li><span>How do you guarantee that the first API is received before the second one is requested? (synchronous requirement)</span></li><li><span>What did you cache?  How long is each resource cached for?  Can you engineer a scenario where your application might serve might serve cached data that is different than what the real results would be?</span></li></ul><p>&nbsp;</p><h3><a name="schedule-a-time-slot" class="md-header-anchor"></a><span>Schedule a Time Slot</span></h3><p><a href="https://calendar.google.com/calendar/selfsched?sstoken=UUZBejBhc0FubEVTfGRlZmF1bHR8MjQwZWI4NWMyNGExNDhmNGM5OTM3Njg3ZjBjNWM5MDc" target="_blank" class="url">https://calendar.google.com/calendar/selfsched?sstoken=UUZBejBhc0FubEVTfGRlZmF1bHR8MjQwZWI4NWMyNGExNDhmNGM5OTM3Njg3ZjBjNWM5MDc</a></p><p>&nbsp;</p><h2><a name="additional-notes" class="md-header-anchor"></a><span>Additional Notes</span></h2><p><span>Be careful of scope creep, keep the project simple.  The usefulness of your project is not a factor in it's grading.   It is more important that the code work reliably.</span></p><p>&nbsp;</p></div>
+
+</body></html>

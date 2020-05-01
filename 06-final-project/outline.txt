@@ -1,8 +1,0 @@
-user arrives at website
-form asks for
-    email(required)
-    start date to end date(past year as default)
-    sent by, sent to (default is everyone)
-get emails from uesr
-read sentiment
-provide average rating

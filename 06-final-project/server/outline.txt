@@ -1,0 +1,21 @@
+user arrives at website
+form asks for
+    email(required)
+    start date to end date(past year as default)
+    sent by, sent to (default is everyone)
+get emails from uesr
+read sentiment
+provide average rating
+
+flow:
+    user specifies query
+    send query to gmail api
+    api responds with message ids
+    for each message id, send request to gmail api for message body, receiver, other params
+    for each message body response, add to array of objects
+    for each in array, send message body to monkeyAPI wrapped in function. pass index as identifier, and array to modify
+    after recieve monkeyAPI response, add score to message objects
+
+    find avg of all scores
+    display score
+    display all messages
