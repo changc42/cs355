@@ -8,6 +8,7 @@ const { client_id, client_secret, state, API_KEY } = require("./auth/keys");
 const scopes = require("./auth/scopes");
 let createMyMessageList = require("./utilFunctions/createMyMessageList");
 const { spawn } = require("child_process");
+let moreReducedMsg = require("./utilFunctions/moreReducedMsg");
 
 let server = http.createServer();
 
@@ -69,7 +70,7 @@ server.on("request", (req, res) => {
   } else if (req.url.startsWith("/api/messagelist")) {
     urlObj = url.parse(req.url, true).query;
     urlObj.access_token = accessToken;
-    urlObj.maxResults = 1;
+    urlObj.maxResults = 7;
     console.log(accessToken);
     let queryString = new URLSearchParams(urlObj).toString();
     let connection = https.request(
@@ -95,6 +96,7 @@ server.on("request", (req, res) => {
     );
     connection.end();
   } else if (req.url.startsWith("/api/assessMessages")) {
+    let count = 0;
     myMessageList.forEach((msg) => {
       let query = {
         key: API_KEY,
@@ -106,9 +108,21 @@ server.on("request", (req, res) => {
         method: "POST",
       };
       let nlpRes = "";
-      let connection = https.request(options, (res) => {
-        res.on("data", (chunk) => {
+      let connection = https.request(options, (nlpResStream) => {
+        nlpResStream.on("data", (chunk) => {
           nlpRes += chunk.toString();
+        });
+        nlpResStream.on("end", () => {
+          msg.sentAnalysis = JSON.parse(nlpRes);
+          count++;
+          console.log(`${count}/${myMessageList.length}`);
+          if (count === myMessageList.length) {
+            myMessageList.forEach((e) => {
+              console.log(moreReducedMsg(e));
+            });
+            res.writeHead(302, { Location: "/results" });
+            res.end();
+          }
         });
       });
       let myObj = {
@@ -120,7 +134,29 @@ server.on("request", (req, res) => {
       connection.write(JSON.stringify(myObj));
       connection.end();
     });
-    res.write("finished creating my message list");
+  } else if (req.url === "/results") {
+    let sum = 0;
+    myMessageList.forEach((e) => {
+      sum += e.sentAnalysis.documentSentiment.score;
+    });
+    let avg = sum / myMessageList.length;
+    let body = myMessageList.map((e) => {
+      return `<br><div><p>From: ${
+        e.headers.filter((e) => e.name === "From")[0].value
+      }</p><p>To: ${
+        e.headers.filter((e) => e.name === "To")[0].value
+      }</p><p>Date: ${
+        e.headers.filter((e) => e.name === "Date")[0].value
+      }</p><p>Subject: ${
+        e.headers.filter((e) => e.name === "Subject")[0].value
+      }</p><p>sentiment score: ${
+        e.sentAnalysis.documentSentiment.score
+      }</p><p>Content: ${e.content}</p></div><br>`;
+    });
+    body = body.join("");
+    body = `<div><h1>average score: ${avg}</h1><div>` + body;
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write(body);
     res.end();
   } else {
     let target = path.join(__dirname, "static", req.url);

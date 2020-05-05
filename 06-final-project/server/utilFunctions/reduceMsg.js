@@ -12,14 +12,17 @@ module.exports = (messageObj) => {
       e.name === "From"
   );
   let content = messageObjToString(messageObj);
-  return { id, labelIds, snippet, headers, content, score: null };
+  return { id, labelIds, snippet, headers, content, sentAnalysis: null };
 };
 
 //a message obj contains many parts of a msg, all in base 64. this function returns the concantenated ascii representation of the msg obj
 function messageObjToString(messageObj) {
+  console.log("decoding ", messageObj.id);
   let msg = "";
   if (messageObj.payload.parts) {
-    msg += base64Decode(messageObj.payload.parts[0].body.data);
+    if (messageObj.payload.parts[0].parts) {
+      msg += base64Decode(messageObj.payload.parts[0].parts[0].body.data);
+    } else msg += base64Decode(messageObj.payload.parts[0].body.data);
   } else {
     msg += base64Decode(messageObj.payload.body.data);
   }
