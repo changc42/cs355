@@ -1,3 +1,5 @@
+// auth/keys not pushed to git repo. must obtain via other measures
+
 const http = require("http");
 const https = require("https");
 const url = require("url");
