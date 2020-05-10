@@ -1,9 +1,12 @@
-const { client_id, client_secret } = require("../../auth/keys");
 const url = require("url");
 const https = require("https");
+const fs = require("fs");
 
-module.exports = (req, res, accessToken) => {
+const { client_id, client_secret } = require("../../auth/keys");
+
+module.exports = (req, res, db) => {
   // takes in empty accessToken object as parameter and inserts accessToken into it
+  // after get access token, sends user a form
   let authCode = url.parse(req.url, true).query.code;
   let query = {
     client_id: client_id,
@@ -19,17 +22,20 @@ module.exports = (req, res, accessToken) => {
     path: "/token",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "Content-Length": Buffer.byteLength(queryString),
+      // "Content-Length": Buffer.byteLength(queryString),
     },
   };
-  let client = https.request(options, (tokenRes) => {
+  let sb = "";
+  let tokenReq = https.request(options, (tokenRes) => {
     tokenRes.on("data", (chunk) => {
-      accessToken.accessToken = JSON.parse(chunk.toString()).access_token;
-      client.end();
-      res.writeHead(302, { Location: "/query" });
-      res.end();
+      sb += chunk.toString();
+    });
+    tokenRes.on("end", () => {
+      db.accessToken = JSON.parse(sb).access_token;
+      res.writeHead(200, { "Content-Type": "text/html" });
+      let htmlFile = fs.createReadStream("./html/query.html");
+      htmlFile.pipe(res);
     });
   });
-  client.write(queryString);
-  return authCode;
+  tokenReq.end(queryString);
 };

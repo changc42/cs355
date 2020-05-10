@@ -42,3 +42,10 @@
     font-size: 30px;
   }
 }
+
+.Form {
+  margin: 30px 25%;
+}
+.FormLabel {
+  margin-top: 20px;
+}

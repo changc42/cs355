@@ -1,32 +1,26 @@
+const path = require("path");
+const fs = require("fs");
+
 let landing = require("./landing");
 let apiAuth = require("./api/auth");
 let apiAuthredirect = require("./api/authredirect");
-let query = require("./query");
-let apiGetMessages = require("./api/getMessages.js");
-let apiAssessMessages = require("./api/assessMessages");
-let results = require("./results");
+let apiGetAndAssessMessages = require("./api/getAndAssessMessages.js");
 
-let authCode;
-let accessToken = {};
-let messageObj;
-let myMessageList = { myMessageList: [] };
+let db = {
+  accessToken: null,
+  myMessageList: [],
+};
 
 module.exports = (server) => {
   server.on("request", (req, res) => {
     if (req.url === "/") {
-      landing(req, res);
+      landing(req, res, db);
     } else if (req.url == "/api/auth") {
       apiAuth(req, res);
     } else if (req.url.startsWith("/api/authredirect")) {
-      authCode = apiAuthredirect(req, res, accessToken);
-    } else if (req.url === "/query") {
-      query(req, res);
-    } else if (req.url.startsWith("/api/getMessages")) {
-      apiGetMessages(req, res, myMessageList);
-    } else if (req.url.startsWith("/api/assessMessages")) {
-      apiAssessMessages(req, res);
-    } else if (req.url === "/results") {
-      results(req, res);
+      apiAuthredirect(req, res, db);
+    } else if (req.url.startsWith("/api/getAndAssessMessages")) {
+      apiGetAndAssessMessages(req, res, db);
     } else {
       let target = path.join(__dirname, "static", req.url);
       if (fs.existsSync(target)) {
