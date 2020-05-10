@@ -8,5 +8,7 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "mongodb": "^3.5.7"
+  }
 }

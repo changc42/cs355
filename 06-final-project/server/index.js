@@ -69,10 +69,11 @@ server.on("request", (req, res) => {
     res.writeHead(200, { "Content-Type": "text/html" });
     let htmlFile = fs.createReadStream("./html/query.html");
     htmlFile.pipe(res);
-  } else if (req.url.startsWith("/api/messagelist")) {
-    urlObj = url.parse(req.url, true).query;
+  } else if (req.url.startsWith("/api/getMessages")) {
+    let urlObj = url.parse(req.url, true).query;
     urlObj.access_token = accessToken;
     urlObj.maxResults = 7;
+    console.log(urlObj);
     console.log(accessToken);
     let queryString = new URLSearchParams(urlObj).toString();
     let connection = https.request(
@@ -85,7 +86,7 @@ server.on("request", (req, res) => {
         });
         gmailRes.on("end", () => {
           messageList = JSON.parse(sb);
-          totalMsg = messageList.messages.length;
+          let totalMsg = messageList.messages.length;
           createMyMessageList(
             messageList,
             accessToken,
@@ -119,9 +120,6 @@ server.on("request", (req, res) => {
           count++;
           console.log(`${count}/${myMessageList.length}`);
           if (count === myMessageList.length) {
-            myMessageList.forEach((e) => {
-              console.log(moreReducedMsg(e));
-            });
             res.writeHead(302, { Location: "/results" });
             res.end();
           }
@@ -140,7 +138,6 @@ server.on("request", (req, res) => {
     let sum = 0;
     let total = myMessageList.length;
     myMessageList.forEach((e) => {
-      console.log(moreReducedMsg(e));
       if (e.sentAnalysis.error) {
         total--;
       } else sum += e.sentAnalysis.documentSentiment.score;
@@ -169,7 +166,7 @@ server.on("request", (req, res) => {
     res.write(body);
     res.end();
   } else {
-    let target = path.join(__dirname, "static", req.url);
+    let target = path.join(__dirname, "routes", "static", req.url);
     if (fs.existsSync(target)) {
       let staticFile = fs.createReadStream(target);
       staticFile.pipe(res);
