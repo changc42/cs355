@@ -13,24 +13,23 @@ module.exports = (req, res, db) => {
 
 function getMessageList(req, res, db) {
   let urlObj = url.parse(req.url, true).query;
-  console.log(urlObj);
+  console.log(db);
   let { maxResults, from, to, after, before } = urlObj;
-  /*
-    urlObj looks like
-    urlObj {
-      maxResults: 4,
-      from: "john",
-      before: "",
-      after: ""
-    }
-  */
+
   let query = {
     access_token: db.accessToken,
     maxResults,
   };
-  urlObj.maxResults = 7;
+  qParam = "";
+  if (from != "") qParam += `from:${from} `;
+  if (to != "") qParam += `to:${to} `;
+  if (after != "") qParam += `after:${after} `;
+  if (before != "") qParam += `before:${before} `;
+  query.q = qParam;
+  let queryString = new URLSearchParams(query).toString();
+  console.log(query);
+
   console.log(db.accessToken);
-  let queryString = new URLSearchParams(urlObj).toString();
 
   let gmailReq = https.request(
     `${endpoints.gmail_messages}?${queryString}`,
@@ -50,29 +49,42 @@ function getMessageList(req, res, db) {
 }
 
 function messageListToMyMessageList(req, res, db, messageList) {
-  messageList.messages.forEach(({ id }) => {
-    let query = {
-      access_token: db.accessToken,
-    };
-    let queryString = new URLSearchParams(query).toString();
-    let messageIdContentReq = https.request(
-      `${endpoints.gmail_messages}/${id}?${queryString}`,
-      (messageIdContentRes) => {
-        let sb = "";
-        messageIdContentRes.on("data", (chunk) => {
-          sb += chunk.toString();
-        });
-        messageIdContentRes.on("end", () => {
-          let messageObj = JSON.parse(sb);
-          db.myMessageList.push(reduceMsg(messageObj));
-          if (db.myMessageList.length === messageList.messages.length) {
-            assessMessages(req, res, db);
+  if (messageList.messages) {
+    messageList.messages.forEach(({ id }) => {
+      if (!db.myMessageListCache.map((e) => e.id).includes(id)) {
+        console.log(`retrieving content of id: ${id}`);
+        let query = {
+          access_token: db.accessToken,
+        };
+        let queryString = new URLSearchParams(query).toString();
+        let messageIdContentReq = https.request(
+          `${endpoints.gmail_messages}/${id}?${queryString}`,
+          (messageIdContentRes) => {
+            let sb = "";
+            messageIdContentRes.on("data", (chunk) => {
+              sb += chunk.toString();
+            });
+            messageIdContentRes.on("end", () => {
+              let messageObj = JSON.parse(sb);
+              db.myMessageList.push(reduceMsg(messageObj));
+              if (db.myMessageList.length === messageList.messages.length) {
+                assessMessages(req, res, db);
+              }
+            });
           }
-        });
+        );
+        messageIdContentReq.end();
+      } else {
+        console.log(`message id ${id} already in db`);
+        db.myMessageList.push(db.myMessageListCache.find((e) => e.id === id));
+        if (db.myMessageList.length === messageList.messages.length) {
+          assessMessages(req, res, db);
+        }
       }
-    );
-    messageIdContentReq.end();
-  });
+    });
+  } else {
+    res.end("no messages found");
+  }
 }
 
 // a msg obj contains a lot of information we do not need. this function removed unnecessary properties
@@ -96,11 +108,14 @@ function messageObjToString(messageObj) {
   let msg = "";
   if (messageObj.payload.parts) {
     if (messageObj.payload.parts[0].parts) {
-      msg += base64Decode(messageObj.payload.parts[0].parts[0].body.data);
+      if (messageObj.payload.parts[0].parts[0].parts) {
+        msg += base64Decode(
+          messageObj.payload.parts[0].parts[0].parts[0].body.data
+        );
+      } else
+        msg += base64Decode(messageObj.payload.parts[0].parts[0].body.data);
     } else msg += base64Decode(messageObj.payload.parts[0].body.data);
-  } else {
-    msg += base64Decode(messageObj.payload.body.data);
-  }
+  } else msg += base64Decode(messageObj.payload.body.data);
 
   return msg;
 }

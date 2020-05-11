@@ -31,7 +31,20 @@ module.exports = (req, res, db) => {
       sb += chunk.toString();
     });
     tokenRes.on("end", () => {
-      db.accessToken = JSON.parse(sb).access_token;
+      let authObj = JSON.parse(sb);
+      let currentTime = Date.now();
+      authObj.expiration = currentTime + 3600000;
+
+      fs.writeFile(
+        "./cache/accessToken.txt",
+        JSON.stringify(authObj),
+        (err) => {
+          if (err) throw err;
+          console.log("finished caching accessToken");
+        }
+      );
+
+      db.accessToken = authObj.access_token;
       res.writeHead(200, { "Content-Type": "text/html" });
       let htmlFile = fs.createReadStream("./html/query.html");
       htmlFile.pipe(res);

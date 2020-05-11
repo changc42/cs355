@@ -9,6 +9,7 @@ let apiGetAndAssessMessages = require("./api/getAndAssessMessages.js");
 let db = {
   accessToken: null,
   myMessageList: [],
+  myMessageListCache: [],
 };
 
 module.exports = (server) => {
@@ -16,7 +17,7 @@ module.exports = (server) => {
     if (req.url === "/") {
       landing(req, res, db);
     } else if (req.url == "/api/auth") {
-      apiAuth(req, res);
+      apiAuth(req, res, db);
     } else if (req.url.startsWith("/api/authredirect")) {
       apiAuthredirect(req, res, db);
     } else if (req.url.startsWith("/api/getAndAssessMessages")) {
