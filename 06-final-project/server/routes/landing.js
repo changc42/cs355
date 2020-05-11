@@ -1,7 +1,6 @@
 const fs = require("fs");
 
 module.exports = (req, res, db) => {
-  db.accessToken = null;
   db.myMessageList.forEach((e) => {
     if (!db.myMessageListCache.map((cacheObj) => cacheObj.id).includes(e.id))
       db.myMessageListCache.push(e);

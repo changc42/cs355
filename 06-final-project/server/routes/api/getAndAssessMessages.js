@@ -13,7 +13,7 @@ module.exports = (req, res, db) => {
 
 function getMessageList(req, res, db) {
   let urlObj = url.parse(req.url, true).query;
-  console.log(db);
+  console.log(db, "part 2");
   let { maxResults, from, to, after, before } = urlObj;
 
   let query = {

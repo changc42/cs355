@@ -4,13 +4,16 @@ const endpoints = require("../../auth/endpoints");
 const fs = require("fs");
 
 module.exports = (req, res, db) => {
-  let authObj = JSON.parse(
-    fs.readFileSync("./cache/accessToken.txt").toString()
-  );
-  console.log(authObj);
   let currentTime = Date.now();
-  if (currentTime < authObj.expiration) {
-    db.accessToken = authObj.accessToken;
+  let authObj = {};
+  if (
+    fs.existsSync("./cache/accessToken.txt") &&
+    (authObj = JSON.parse(
+      fs.readFileSync("./cache/accessToken.txt").toString()
+    )).expiration > currentTime
+  ) {
+    console.log(authObj, "part1");
+    db.accessToken = authObj.access_token;
     res.writeHead(200, { "Content-Type": "text/html" });
     let htmlFile = fs.createReadStream("./html/query.html");
     htmlFile.pipe(res);
