@@ -9,3 +9,7 @@ Code is kept in case a new use case arises.
 
 this is the unmodularized version of server/index.js. this was working. keep in case attempt at modularizing fails
 later... modularization success. keep anyway
+
+#sendResults.js
+
+this was the function used to send plain html text to show user results. Function stopped being used when switch to React
