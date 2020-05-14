@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ResultCard from "./ResultCard";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Landing from "./Landing";
 
 function App() {
@@ -22,6 +22,9 @@ function App() {
       <Switch>
         <Route exact path="/">
           <Landing />
+        </Route>
+        <Route exact path="/api/auth">
+          <Redirect to="/api/auth" />
         </Route>
         {/* <Route exact path="/results">
           {isLoading ? (

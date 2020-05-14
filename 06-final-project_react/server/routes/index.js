@@ -10,7 +10,7 @@ let db = {
 module.exports = (app) => {
   app.get("/api/auth", (req, res) => {
     console.log("Reached!");
-    res.end("sup beet");
+    res.end("<a href='/'>home</a>");
   });
 
   // app.get("/api/authredirect", (req, res) => {
