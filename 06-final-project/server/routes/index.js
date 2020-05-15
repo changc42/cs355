@@ -15,7 +15,8 @@ let db = {
 module.exports = (server) => {
   server.on("request", (req, res) => {
     if (req.url === "/") {
-      landing(req, res, db);
+      // landing(req, res, db);
+      console.log(req.headers.cookie);
     } else if (req.url == "/api/auth") {
       apiAuth(req, res, db);
     } else if (req.url.startsWith("/api/authredirect")) {

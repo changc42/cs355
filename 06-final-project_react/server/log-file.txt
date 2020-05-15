@@ -1,0 +1,3 @@
+Listening on port 5000
+inside req middleware. req.headers.cookie= connect.sid=s%3Ab09d4586-2bd2-4589-a261-1aa8fec761c1.iZbar5cEFE3H9x1pg4%2B4OB%2BRcpu%2Brhy1b5RtV0%2BfM1I; 4242cookie%%AssignedBY%%Me4242; name_of_cookie=4242cookie%%AssignedBY%%Me4242
+[ 'x-powered-by', 'set-cookie' ]

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ResultCard from "./ResultCard";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Landing from "./Landing";
+import Query from "./Query";
 
 function App() {
   let [isLoading, setIsLoading] = useState(true);
@@ -23,8 +24,8 @@ function App() {
         <Route exact path="/">
           <Landing />
         </Route>
-        <Route exact path="/api/auth">
-          <Redirect to="/api/auth" />
+        <Route exact path="/query">
+          <Query />
         </Route>
         {/* <Route exact path="/results">
           {isLoading ? (

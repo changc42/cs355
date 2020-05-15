@@ -9,8 +9,14 @@ let db = {
 
 module.exports = (app) => {
   app.get("/api/auth", (req, res) => {
-    console.log("Reached!");
-    res.end("<a href='/'>home</a>");
+    // res.redirect("/query");
+    res.end("at api/auth");
+  });
+
+  app.get("/", (req, res) => {
+    console.log("inside homepage. req.headers.cookie=", req.headers.cookie);
+
+    res.end("heyyy");
   });
 
   // app.get("/api/authredirect", (req, res) => {
