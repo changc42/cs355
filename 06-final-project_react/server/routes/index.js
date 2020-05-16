@@ -13,12 +13,6 @@ module.exports = (app) => {
     res.end("at api/auth");
   });
 
-  app.get("/", (req, res) => {
-    console.log("inside homepage. req.headers.cookie=", req.headers.cookie);
-
-    res.end("heyyy");
-  });
-
   // app.get("/api/authredirect", (req, res) => {
   //   apiAuthredirect(req, res, db);
   // });
